@@ -1,0 +1,46 @@
+<div [ngStyle]="{'background-color': totalReservedSeats > 10 ? 'green' : 'red'}" class="m-3 p-3 rounded">
+    Total reserved seats: {{totalReservedSeats}}
+</div>
+<div class="container">
+
+    <div class="row">
+
+        <app-trip-filter (filtersChanged)="handleFiltersChanged($event)" [minPriceP]="minPrice"
+            [maxPriceP]="maxPrice"></app-trip-filter>
+
+        <div class="col-12 col-md-6 col-lg-4 px-3"
+            *ngFor="let trip of (getDisplayedTrips() | locationPipe:location | pricePipe:minPricePipe:maxPricePipe | datePipe:startDate:endDate | ratingPipe:rating); let i = index">
+
+            <app-trip-card [trip]="trip" [i]="i" [minPrice]="minPrice" [maxPrice]="maxPrice"
+                (deleteEvent)="handleDelete(i)" (reserveSeatEvent)="reserveSeat($event)"
+                (cancelSeatEvent)="cancelSeat($event)">
+            </app-trip-card>
+
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <div class="mb-3 d-flex">
+                <label for="itemsPerPage" class="forl-label mx-3">Items per page:</label>
+                <select id="itemsPerPage" [(ngModel)]="itemsPerPage" class="form-select" style="width: 5rem;"
+                    (change)="currentPage=1">
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="8">8</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+
+            <div>
+                <button *ngIf="currentPage > 1" (click)="currentPage = currentPage > 1 ? currentPage - 1 : 1"
+                    class="btn btn-sm btn-primary m-3">Previous
+                    page</button>
+                <button *ngIf="currentPage < trips.length / itemsPerPage"
+                    (click)="currentPage = currentPage < trips.length / itemsPerPage ? currentPage + 1 : currentPage"
+                    class="btn btn-sm btn-primary m-3">Next
+                    page</button>
+            </div>
+
+        </div>
+    </div>
+</div>

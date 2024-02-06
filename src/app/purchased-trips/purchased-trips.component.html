@@ -1,0 +1,24 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Purchased Trips</h2>
+    <select class="form-select mb-4" [(ngModel)]="filterStatus" style="width: 8rem;" (change)="onFilterChange()">
+        <option value="all">All</option>
+        <option value="upcoming">Upcoming</option>
+        <option value="active">Active</option>
+        <option value="archived">Archived</option>
+    </select>
+
+    <div class="card mb-3" *ngFor="let trip of purchasedTripsKeys | filterTrips:filterStatus">
+        <div class="card-body">
+            <h5 class="card-title">{{ trip.name }}</h5>
+            <p class="card-text">Trip bought: {{ purchasedTrips.get(trip)!.date }}</p>
+            <p class="card-text">Trip price: {{ trip.price }}{{ currencySign }}. Count:
+                {{purchasedTrips.get(trip)!.count }}. Total price:
+                {{ getTripsValue(trip) }}{{ currencySign }}</p>
+            <p class="card-text">Date: {{ trip.startDate }} - {{ trip.endDate }}</p>
+            <p class="card-text">Destination: {{ trip.destination }}</p>
+            <p class="card-text">Status: {{ calculateStatus(trip) }}</p>
+        </div>
+    </div>
+
+    <h5 class="mb-3">Total: {{ totalOrderValue }}{{ currencySign }}</h5>
+</div>

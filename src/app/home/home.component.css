@@ -1,0 +1,22 @@
+.business-card {
+    border: 1px solid #000;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.map {
+    height: 100%;
+    padding: 0;
+}
+
+#top {
+    background-image: url('https://images.pexels.com/photos/9754/mountains-clouds-forest-fog.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+section {
+    padding-top: 4rem;
+}

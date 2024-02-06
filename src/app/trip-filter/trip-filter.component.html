@@ -1,0 +1,45 @@
+<button *ngIf="filterVisible" class="btn btn-secondary mb-3" (click)="filterVisible = !filterVisible">Hide
+    filters</button>
+<button *ngIf="!filterVisible" class="btn btn-primary mb-3" (click)="filterVisible = !filterVisible">Show
+    filters</button>
+
+<form *ngIf="filterVisible" [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="mb-3">
+    <div class="mb-3">
+        <label for="location" class="form-label">Location:</label>
+        <select id="location" formControlName="location" class="form-select">
+            <option *ngFor="let location of locations" [value]="location">{{location}}</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="minPrice" class="form-label">Minimum Price:</label>
+        <input type="range" id="minPrice" min="{{minPriceP}}" max="{{maxPriceP}}" value="{{minPriceP}}"
+            class="form-range" formControlName="minPrice">
+        <div>Current: {{filterForm.controls['minPrice'].value}}</div>
+    </div>
+    <div class="mb-3">
+        <label for="maxPrice" class="form-label">Maximum Price:</label>
+        <input type="range" id="maxPrice" min="{{minPriceP}}" max="{{maxPriceP}}" value="{{maxPriceP}}"
+            class="form-range" formControlName="maxPrice">
+        <div>Current: {{filterForm.controls['maxPrice'].value}}</div>
+    </div>
+
+    <div class="mb-3">
+        <label for="startDate" class="form-label">Start Date:</label>
+        <input id="startDate" type="date" formControlName="startDate" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="endDate" class="form-label">End Date:</label>
+        <input id="endDate" type="date" formControlName="endDate" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label for="rating" class="form-label">Rating:</label>
+        <select id="rating" formControlName="rating" class="form-select">
+            <option *ngFor="let rating of ratings" [value]="rating">{{rating}}</option>
+        </select>
+    </div>
+
+    <button type="button" (click)="resetFilters()" class="btn btn-secondary me-2">Reset Filters</button>
+    <button type="submit" class="btn btn-primary">Apply Filters</button>
+</form>

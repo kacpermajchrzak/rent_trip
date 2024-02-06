@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+    <form [formGroup]="tripForm" (ngSubmit)="addTrip()" class="m-3 p-3 bg-light rounded shadow w-75">
+        <h2 class="mb-3">Add Trip</h2>
+
+        <div class="mb-3">
+            <input id="name" type="text" formControlName="name" class="form-control" placeholder="Name">
+        </div>
+
+        <div class="mb-3">
+            <input id="destination" type="text" formControlName="destination" class="form-control"
+                placeholder="Destination">
+        </div>
+
+        <div class="mb-3">
+            <label for="startDate" class="form-label">Start Date:</label>
+            <input id="startDate" type="date" formControlName="startDate" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="endDate" class="form-label">End Date:</label>
+            <input id="endDate" type="date" formControlName="endDate" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="price" class="form-label">Price:</label>
+            <input id="price" type="number" formControlName="price" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="maxSeats" class="form-label">Max Seats:</label>
+            <input id="maxSeats" type="number" formControlName="maxSeats" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <textarea id="description" formControlName="description" class="form-control"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Image URL:</label>
+            <input id="image" type="text" formControlName="image" class="form-control">
+        </div>
+
+        <button type="submit" [disabled]="tripForm.invalid" class="btn btn-primary">Add Trip</button>
+    </form>
+</div>

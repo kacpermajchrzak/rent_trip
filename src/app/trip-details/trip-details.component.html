@@ -1,0 +1,82 @@
+<div class="container">
+    <h2 class="mt-4">Name: {{ trip?.name }}</h2>
+    <h3>Destination: {{ trip?.destination }}</h3>
+    <h4>Map: </h4>
+    <div class="p-3 w-75 m-3 mx-auto" id="map" style="height: 400px;"></div>
+    <h4>Photos:</h4>
+
+
+    <div id="carousel" class="carousel slide mx-auto border rounded" data-bs-ride="carousel" style="width: 60vw;">
+        <div class=" carousel-indicators">
+            <button *ngFor="let image of trip?.images; let i = index" type="button" data-bs-target="#carousel"
+                attr.data-bs-slide-to="{{i}}" [class.active]="i === 1" attr.aria-label="Slide {{i}}"></button>
+        </div>
+        <div class="carousel-inner">
+            <div *ngFor="let image of trip?.images; let i = index" class="carousel-item" [class.active]="i === 0">
+                <img [src]="image" alt="image{{i + 1}}" class="d-block w-100">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <p *ngIf="trip && trip.maxSeats - trip.reservedSeats > 0">Available
+        Seats:{{trip.maxSeats - trip.reservedSeats}}</p>
+    <p *ngIf="trip && trip.maxSeats - trip.reservedSeats === 0">No vacancies !!!
+    </p>
+    <button class="btn btn-success mt-2" (click)="reserveSeat()"
+        [hidden]="trip && trip.maxSeats - trip.reservedSeats === 0">+</button>
+    <button class="btn btn-danger mt-2 ml-2" (click)="cancelSeat()"
+        [hidden]="trip && trip.reservedSeats === 0">-</button>
+
+    <p class="mt-4">Description: {{ trip?.description }}</p>
+    <p>Price: {{ trip?.price }}{{ priceSign }}</p>
+    <p>Total Rating: {{ totalRating }}</p>
+    <app-trip-rating *ngIf="userRole !== 'admin' && userRole !== 'manager'" (rate)="handleRate($event)"
+        [stars]='stars'></app-trip-rating>
+    <div class="m-1 mt-4">
+        <a routerLink="/trips" class="btn btn-dark p-2">
+            Back to Trip List
+        </a>
+    </div>
+
+    <button *ngIf="!addReviewButton && userRole !== 'admin'" (click)="showForm()" class="btn btn-primary m-1">Add
+        Review</button>
+    <button *ngIf="addReviewButton" (click)="hideForm()" class="btn btn-secondary m-1">Cancel</button>
+
+    <form *ngIf="addReviewButton" [formGroup]="tripForm" (ngSubmit)="addReview()" class="m-3">
+
+        <div class="mb-3">
+            <input id="title" type="text" formControlName="title" placeholder="Title" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="purchasedDate">Purchased Date (not required):</label>
+            <input id="purchasedDate" type="date" formControlName="purchasedDate" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="comment">comment:</label>
+            <textarea id="comment" formControlName="comment" placeholder="Min 50 signs" class="form-control"></textarea>
+        </div>
+
+        <button type="submit" [disabled]="tripForm.invalid" class="btn btn-primary">Add Review</button>
+    </form>
+
+    <div class="p-3">
+        <h3>Reviews:</h3>
+        <div *ngFor="let review of reviews" class="card mt-3">
+            <div class="card-body">
+                <p>{{ review.purchasedDate }}</p>
+                <h5 class="card-title">{{ review.nickname }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ review.title }}</h6>
+                <p class="card-text">{{ review.comment }}</p>
+            </div>
+        </div>
+    </div>

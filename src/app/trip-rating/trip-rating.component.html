@@ -1,0 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css">
+<span *ngFor="let star of stars; let i = index" (click)="rateTrip(i)">
+    <i *ngIf="!star" class="bi bi-star"></i>
+    <i *ngIf="star" class="bi bi-star-fill"></i>
+</span>

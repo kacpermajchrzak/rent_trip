@@ -1,0 +1,71 @@
+<nav class="navbar bg-light navbar-light navbar-expand-md">
+  <a href="#" class="navbar-brand ms-3">PAW
+    <i class="bi-airplane ms-1"></i>
+  </a>
+  <div class="currency-selector ms-auto mx-2">
+    <select [value]="selectedCurrency" (change)="handleConvertCurrency($event)" class="form-select">
+      <option value="$">USD</option>
+      <option value="zl">PLN</option>
+      <option value="€">EUR</option>
+    </select>
+  </div>
+
+  <div *ngIf="userRole==='admin'" class="ms-auto mx-2">
+    <select (change)="setPersistence($event)" class="form-select">
+      <option value="session">session</option>
+      <option value="local">local</option>
+      <option value="none">none</option>
+    </select>
+  </div>
+
+  <div *ngIf="userRole==='user'" class="ms-auto mx-2">
+    {{userName}}
+  </div>
+  <div *ngIf="userRole==='manager'" class="ms-auto mx-2">
+    Manager
+  </div>
+  <div *ngIf="userRole==='admin'" class="ms-auto mx-2">
+    Admin
+  </div>
+
+
+  <button type="button" class="navbar-toggler navbar-toggler-right" data-bs-toggle="collapse"
+    data-bs-target="#navbarNav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ms-auto" id="navScrollspy">
+      <li class="nav-item" *ngIf="isLogged">
+        <a class="nav-link" (click)="signOut()" href="javascript:void(0)">Sign Out</a>
+      </li>
+      <li class="nav-item" *ngIf="!isLogged">
+        <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+      </li>
+      <li class="nav-item" *ngIf="!isLogged">
+        <a class="nav-link" routerLink="/register" routerLinkActive="active">Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/trips" routerLinkActive="active">Trips</a>
+      </li>
+      <li class="nav-item" *ngIf="isLogged">
+        <a class="nav-link" routerLink="/cart" routerLinkActive="active">Cart</a>
+      </li>
+      <li class="nav-item" *ngIf="isLogged">
+        <a class="nav-link" routerLink="/purchased" routerLinkActive="active">Purchased</a>
+      </li>
+      <li class="nav-item" *ngIf="isLogged && (userRole==='admin' || userRole ==='manager')">
+        <a class="nav-link" routerLink="/add" routerLinkActive="active">Add</a>
+      </li>
+    </ul>
+  </div>
+
+</nav>
+
+<p *ngIf="tripStartingSoon" class="p-3 bg-info">One of your trips starts soon!</p>
+<app-selected-trip-summary></app-selected-trip-summary>
+
+<router-outlet></router-outlet>

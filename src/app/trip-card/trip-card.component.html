@@ -1,0 +1,33 @@
+<div class="card mb-4" [ngStyle]="{
+    'background-color': (trip.maxSeats - trip.reservedSeats) < 5 ? 'orange' : 'white',
+    'border': trip.price === minPrice ? '5px solid green' : trip.price === maxPrice ? '5px solid red' : '1px solid gray'
+}">
+
+    <a routerLink="/trips/{{trip.id}}" class="d-flex justify-content-center">
+        <img class="card-img-top rounded-circle trip-image" src="{{trip.image}}" alt="Trip Image">
+    </a>
+
+    <app-trip-delete (delete)="handleDelete()"></app-trip-delete>
+
+    <div class="card-body">
+        <h5 class="card-title">{{trip.name | uppercase}}</h5>
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Destination: {{trip.destination | uppercase}}</li>
+            <li class="list-group-item">Start Date: {{trip.startDate}}</li>
+            <li class="list-group-item">End Date: {{trip.endDate}}</li>
+            <li class="list-group-item">
+                <p>Price: {{trip.price}}{{priceSign}}</p>
+            </li>
+            <li class="list-group-item">Max Seats: {{trip.maxSeats}}</li>
+            <li *ngIf="trip.maxSeats - trip.reservedSeats > 0" class="list-group-item">Available
+                Seats:{{trip.maxSeats - trip.reservedSeats}}</li>
+            <li *ngIf="trip.maxSeats - trip.reservedSeats === 0" class="list-group-item">No vacancies !!!
+            </li>
+        </ul>
+        <button class="btn btn-success mt-2" (click)="reserveSeat()"
+            [hidden]="trip.maxSeats - trip.reservedSeats === 0">+</button>
+        <button class="btn btn-danger mt-2 ml-2" (click)="cancelSeat()" [hidden]="trip.reservedSeats === 0">-</button>
+    </div>
+
+</div>
